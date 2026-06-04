@@ -1,4 +1,10 @@
 
+
+https://github.com/user-attachments/assets/4cf14024-9e4e-426a-856c-540612932993
+
+
+
+
 🔐 SupaKeys - Gerador de Senhas
 
 O SupaKeys é um gerador de senhas aleatórias desenvolvido para criar senhas seguras de forma rápida e prática. O usuário pode escolher o tamanho da senha e selecionar quais tipos de caracteres deseja incluir, como letras maiúsculas, minúsculas, números e símbolos.
