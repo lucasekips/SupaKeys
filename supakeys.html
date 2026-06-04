@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SupaKeys</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  
+
+  <body class="body">
+    <canvas id="matrix"></canvas>
+    <div class="background"></div>
+    
+
+    <div class="flex-center">
+      <h1 class="text">Gerador de senhas aleatórias</h1>
+    </div>
+
+    <div class="flex-center2">
+      <h5 class="text2">Com rapidez e eficiência, consiga senhas SEGURAS!</h5>
+    </div>
+
+    <div class="quantidade-row">
+      <input
+        type="number"
+        id="quantidade"
+        min="1"
+        max="30"
+        value="12"
+        placeholder="Caracteres"
+      />
+
+      <button onclick="gerarSenha()" class="btn-gerar">Gerar senha</button>
+    </div>
+
+    <div class="opcoes">
+      <label><input type="checkbox" id="maiusculas" checked /> A - Z</label>
+      <label><input type="checkbox" id="minusculas" checked /> a - z</label>
+      <label><input type="checkbox" id="numeros" checked /> 0 - 9</label>
+      <label><input type="checkbox" id="simbolos" /> ! @ # $ %</label>
+    </div>
+
+    <br /><br />
+
+    <input type="text" id="resultado" readonly />
+
+    <p id="forca" class="forca">Força: -</p>
+
+    <div class="rodape">
+      <h5 class="text2">Created by Lucas Santos</h5>
+    </div>
+
+    <script>
+      function gerarSenha() {
+        const tamanho = Number(document.getElementById("quantidade").value);
+
+        const maiusculas = document.getElementById("maiusculas").checked;
+
+        const minusculas = document.getElementById("minusculas").checked;
+
+        const numeros = document.getElementById("numeros").checked;
+
+        const simbolos = document.getElementById("simbolos").checked;
+
+        let caracteres = "";
+
+        if (maiusculas) {
+          caracteres += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        }
+
+        if (minusculas) {
+          caracteres += "abcdefghijklmnopqrstuvwxyz";
+        }
+
+        if (numeros) {
+          caracteres += "0123456789";
+        }
+
+        if (simbolos) {
+          caracteres += "!@#$%&*?";
+        }
+
+        if (caracteres === "") {
+          alert("Selecione pelo menos uma opção!");
+          return;
+        }
+
+        let senha = "";
+
+        for (let i = 0; i < tamanho; i++) {
+          const indice = Math.floor(Math.random() * caracteres.length);
+
+          senha += caracteres[indice];
+        }
+
+        document.getElementById("resultado").value = senha;
+
+        const forca = document.getElementById("forca");
+
+        let pontos = 0;
+
+        if (senha.length >= 8) pontos++;
+        if (senha.length >= 12) pontos++;
+        if (maiusculas && minusculas) pontos++;
+        if (numeros) pontos++;
+        if (simbolos) pontos++;
+
+        forca.className = "forca";
+
+        if (pontos <= 2) {
+          forca.textContent = "Força: Fraca";
+          forca.classList.add("fraca");
+        } else if (pontos <= 4) {
+          forca.textContent = "Força: Média";
+          forca.classList.add("media");
+        } else {
+          forca.textContent = "Força: Forte";
+          forca.classList.add("forte");
+        }
+      }
+    </script>
+    <script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letras =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@$#%&*+-<>[]{}";
+const caracteres = letras.split("");
+
+const fonte = 16;
+const colunas = canvas.width / fonte;
+
+const gotas = [];
+
+for (let i = 0; i < colunas; i++) {
+  gotas[i] = 1;
+}
+
+function desenhar() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#2563eb";
+  ctx.font = fonte + "px JetBrains Mono";
+
+  for (let i = 0; i < gotas.length; i++) {
+    const texto =
+      caracteres[Math.floor(Math.random() * caracteres.length)];
+
+    ctx.fillText(texto, i * fonte, gotas[i] * fonte);
+
+    if (
+      gotas[i] * fonte > canvas.height &&
+      Math.random() > 0.975
+    ) {
+      gotas[i] = 0;
+    }
+
+    gotas[i]++;
+  }
+}
+
+setInterval(desenhar, 80);
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+  </body>
+</html>
